@@ -3,8 +3,10 @@ from rpi_lcd import LCD
 
 lcd = LCD()
 
+
 def safe_exit(signum, frame):
     exit(1)
+
 
 try:
     signal(SIGTERM, safe_exit)
