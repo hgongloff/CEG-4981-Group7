@@ -31,6 +31,7 @@ def read_value():
 
     :return: list of uint8 values
     """
+    print("value read")
     cpu_value = random.randrange(3200, 5310, 10) / 100
     return list(int(cpu_value * 100).to_bytes(2,
                                               byteorder='little', signed=True))
@@ -43,6 +44,7 @@ def update_value(characteristic):
     :param characteristic:
     :return: boolean to indicate if timer should continue
     """
+    print('updated value')
     # read/calculate new value.
     new_value = read_value()
     # Causes characteristic to be updated and send notification
@@ -61,6 +63,7 @@ def notify_callback(notifying, characteristic):
     :param characteristic: The python object for this characteristic
     """
     if notifying:
+        print('notified')
         async_tools.add_timer_seconds(2, update_value, characteristic)
 
 
@@ -73,7 +76,7 @@ def main(adapter_address):
         int.from_bytes(read_value(), byteorder='little', signed=True)/100))
     # Create peripheral
     cpu_monitor = peripheral.Peripheral(adapter_address,
-                                        local_name='CPU Monitor',
+                                        local_name='Cargo Bot',
                                         appearance=1344)
     # Add service
     cpu_monitor.add_service(srv_id=1, uuid=CPU_TMP_SRVC, primary=True)
