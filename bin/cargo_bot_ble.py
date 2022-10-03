@@ -67,7 +67,8 @@ class CargoBotBle:
             print('notified')
             async_tools.add_timer_seconds(2, self.update_value, characteristic)
 
-    def __init__(self, adapter_address):
+    def __init__(self):
+        adapter_address = list(adapter.Adapter.available())[0].address
         threading.Thread.__init__(self)
         """Creation of peripheral"""
         logger = logging.getLogger('localGATT')
