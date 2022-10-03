@@ -5,13 +5,14 @@ from cargo_bot_ble import CargoBotBle
 class CargoBot:
     def __init__(self):
         self.speaker = Speaker()
+        self.cargo_ble = CargoBotBle()
 
     def play_alarm(self):
         self.speaker.play_alarm()
 
     def connect_to_phone(self):
         print("Connecting to mobile device")
-        self.cargo_ble = CargoBotBle()
+        self.cargo_ble.run()
 
     def send_message(self):
         print("Sending message to mobile device")
