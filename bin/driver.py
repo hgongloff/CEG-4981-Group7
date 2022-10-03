@@ -18,14 +18,13 @@ if __name__ == '__main__':
             exit_command = True
 
         elif (command == ('1')):
-
-            CargoBot.play_alarm()
+            cargo_bot.play_alarm()
 
         elif (command == ('2')):
-            CargoBot.connect_to_phone()
+            cargo_bot.connect_to_phone()
 
         elif (command == ('3')):
-            CargoBot.send_message()
+            cargo_bot.send_message()
 
         elif (command == ('4')):
-            CargoBot.get_message()
+            cargo_bot.get_message()
