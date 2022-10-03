@@ -39,6 +39,10 @@ class CargoBotBle:
         return list(int(cpu_value * 100).to_bytes(2,
                                                   byteorder='little', signed=True))
 
+    def write_value(self, value):
+        print('value written')
+        print(value)
+
     def update_value(self, characteristic):
         """
         Example of callback to send notifications
@@ -87,7 +91,7 @@ class CargoBotBle:
                                        value=[], notifying=False,
                                        flags=['read', 'notify'],
                                        read_callback=self.read_value,
-                                       write_callback=None,
+                                       write_callback=self.write_value,
                                        notify_callback=self.notify_callback
                                        )
         # Add descriptor0
