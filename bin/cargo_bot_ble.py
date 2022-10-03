@@ -78,7 +78,8 @@ class CargoBotBle:
 
     def __init__(self):
         adapter_address = list(adapter.Adapter.available())[0].address
-        threading.Thread.__init__(self)
+        # threading.Thread.__init__(self)
+        self.run_thread = threading.Thread(target=self.run, args=(1,))
         """Creation of peripheral"""
         logger = logging.getLogger('localGATT')
         logger.setLevel(logging.DEBUG)
