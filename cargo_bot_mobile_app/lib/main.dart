@@ -84,7 +84,7 @@ class _HomePageState extends State<HomePage> {
             _rxCharacteristic = QualifiedCharacteristic(
                 serviceId: serviceUuid,
                 characteristicId: characteristicUuid,
-                deviceId: event.deviceId);
+                deviceId: 'B8:27:EB:BF:42:C0');
             setState(() {
               _foundDeviceWaitingToConnect = false;
               _connected = true;
@@ -129,12 +129,22 @@ class _HomePageState extends State<HomePage> {
     print(response);
   }
 
-  void _partyTime() {
+  void _partyTime() async {
     if (_connected) {
-      flutterReactiveBle
-          .writeCharacteristicWithResponse(_rxCharacteristic, value: [
-        0xff,
-      ]);
+      // await flutterReactiveBle
+      //     .writeCharacteristicWithResponse(_rxCharacteristic, value: [
+      //   0xff,
+      // ]);
+      final characteristic = QualifiedCharacteristic(
+          serviceId: serviceUuid,
+          characteristicId: characteristicUuid,
+          deviceId: 'B8:27:EB:BF:42:C0');
+      flutterReactiveBle.subscribeToCharacteristic(characteristic).listen(
+          (data) {
+        // code to handle incoming data
+      }, onError: (dynamic error) {
+        // code to handle errors
+      });
     }
   }
 
@@ -172,7 +182,7 @@ class _HomePageState extends State<HomePage> {
                   primary: Colors.blue, // background
                   onPrimary: Colors.white, // foreground
                 ),
-                onPressed: _connect,
+                onPressed: _connectToDevice,
                 child: const Icon(Icons.bluetooth),
               )
             // False condition
@@ -200,7 +210,7 @@ class _HomePageState extends State<HomePage> {
                   primary: Colors.grey, // background
                   onPrimary: Colors.white, // foreground
                 ),
-                onPressed: _readCharacteristic,
+                onPressed: _partyTime,
                 child: const Icon(Icons.celebration_rounded),
               ),
       ],
