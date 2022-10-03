@@ -71,15 +71,16 @@ class CargoBotBle:
             print('notified')
             async_tools.add_timer_seconds(2, self.update_value, characteristic)
 
-    def run(self):
+    def broadcast(self, name):
         """Starts the bluetooth broadcast"""
         print("broadcast")
+        print(name)
         self.cpu_monitor.publish()
 
     def __init__(self):
         adapter_address = list(adapter.Adapter.available())[0].address
         # threading.Thread.__init__(self)
-        self.run_thread = threading.Thread(target=self.run, args=(1,))
+        self.run_thread = threading.Thread(target=self.broadcast, args=(1,))
         """Creation of peripheral"""
         logger = logging.getLogger('localGATT')
         logger.setLevel(logging.DEBUG)

@@ -12,7 +12,7 @@ class CargoBot:
 
     def connect_to_phone(self):
         print("Connecting to mobile device")
-        self.cargo_ble.run()
+        self.cargo_ble.run_thread.start()
 
     def send_message(self):
         print("Sending message to mobile device")
