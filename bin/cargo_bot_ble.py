@@ -89,7 +89,7 @@ class CargoBotBle:
         # Add characteristic
         cpu_monitor.add_characteristic(srv_id=1, chr_id=1, uuid=CPU_TMP_CHRC,
                                        value=[], notifying=False,
-                                       flags=['read', 'notify'],
+                                       flags=['read', 'write', 'notify'],
                                        read_callback=self.read_value,
                                        write_callback=self.write_value,
                                        notify_callback=self.notify_callback
