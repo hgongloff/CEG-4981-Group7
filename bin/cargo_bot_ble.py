@@ -71,6 +71,11 @@ class CargoBotBle:
             print('notified')
             async_tools.add_timer_seconds(2, self.update_value, characteristic)
 
+    def run(self):
+        """Starts the bluetooth broadcast"""
+        print("broadcast")
+        self.cpu_monitor.publish()
+
     def __init__(self):
         adapter_address = list(adapter.Adapter.available())[0].address
         threading.Thread.__init__(self)
@@ -81,24 +86,24 @@ class CargoBotBle:
         print('CPU temperature is {}\u00B0C'.format(
             int.from_bytes(self.read_value(), byteorder='little', signed=True)/100))
         # Create peripheral
-        cpu_monitor = peripheral.Peripheral(adapter_address,
-                                            local_name='Cargo Bot',
-                                            appearance=1344)
+        self.cpu_monitor = peripheral.Peripheral(adapter_address,
+                                                 local_name='Cargo Bot',
+                                                 appearance=1344)
         # Add service
-        cpu_monitor.add_service(srv_id=1, uuid=CPU_TMP_SRVC, primary=True)
+        self.cpu_monitor.add_service(srv_id=1, uuid=CPU_TMP_SRVC, primary=True)
         # Add characteristic
-        cpu_monitor.add_characteristic(srv_id=1, chr_id=1, uuid=CPU_TMP_CHRC,
-                                       value=[], notifying=False,
-                                       flags=['read', 'write',
-                                              'write-without-response', 'notify'],
-                                       read_callback=self.read_value,
-                                       write_callback=self.write_value,
-                                       notify_callback=self.notify_callback
-                                       )
+        self.cpu_monitor.add_characteristic(srv_id=1, chr_id=1, uuid=CPU_TMP_CHRC,
+                                            value=[], notifying=False,
+                                            flags=['read', 'write',
+                                                   'write-without-response', 'notify'],
+                                            read_callback=self.read_value,
+                                            write_callback=self.write_value,
+                                            notify_callback=self.notify_callback
+                                            )
         # Add descriptor0
-        cpu_monitor.add_descriptor(srv_id=1, chr_id=1, dsc_id=1, uuid=CPU_FMT_DSCP,
-                                   value=[0x0E, 0xFE, 0x2F, 0x27, 0x01, 0x00,
-                                          0x00],
-                                   flags=['read'])
+        self.cpu_monitor.add_descriptor(srv_id=1, chr_id=1, dsc_id=1, uuid=CPU_FMT_DSCP,
+                                        value=[0x0E, 0xFE, 0x2F, 0x27, 0x01, 0x00,
+                                               0x00],
+                                        flags=['read'])
         # Publish peripheral and start event loop
-        cpu_monitor.publish()
+        # cpu_monitor.publish()
