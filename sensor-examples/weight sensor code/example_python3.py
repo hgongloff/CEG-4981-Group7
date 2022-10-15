@@ -56,8 +56,8 @@ def setup():
     """
     code run once
     """
-    hx.set_offset(9010732.375)
-    hx.set_scale(-9009.865005)
+    hx.set_offset(9051810.5)
+    hx.set_scale(457.2)
 
 
 def loop():
