@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io' show Platform;
+import 'package:bloc/bloc.dart';
 
 import 'package:location_permissions/location_permissions.dart';
 import 'package:flutter/material.dart';
@@ -131,28 +132,117 @@ class _HomePageState extends State<HomePage> {
 
   void _partyTime() async {
     if (_connected) {
-      // await flutterReactiveBle
-      //     .writeCharacteristicWithResponse(_rxCharacteristic, value: [
-      //   0xff,
-      // ]);
       final characteristic = QualifiedCharacteristic(
           serviceId: serviceUuid,
           characteristicId: characteristicUuid,
           deviceId: 'B8:27:EB:BF:42:C0');
-      flutterReactiveBle.subscribeToCharacteristic(characteristic).listen(
-          (data) {
-        // code to handle incoming data
-      }, onError: (dynamic error) {
-        // code to handle errors
-      });
+      final response =
+          await flutterReactiveBle.readCharacteristic(characteristic);
+      print(response);
+      // final characteristic = QualifiedCharacteristic(
+      //     serviceId: serviceUuid,
+      //     characteristicId: characteristicUuid,
+      //     deviceId: 'B8:27:EB:BF:42:C0');
+      // flutterReactiveBle.subscribeToCharacteristic(characteristic).listen(
+      //     (data) {
+      //   // code to handle incoming data
+      // }, onError: (dynamic error) {
+      //   // code to handle errors
+      // });
+    }
+  }
+
+  void _sendDisplayData() async {
+    if (_connected) {
+      await flutterReactiveBle
+          .writeCharacteristicWithResponse(_rxCharacteristic, value: [
+        0xff,
+      ]);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Robo Code',
+        ),
+        centerTitle: true,
+      ),
       backgroundColor: Colors.white,
-      body: Container(),
+      body: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                padding: const EdgeInsets.fromLTRB(10, 50, 5, 0),
+                child: const Text(
+                  "Weight Load",
+                  style: TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.fromLTRB(10, 50, 10, 0),
+                width: 100,
+                height: 100,
+                child: const TextField(
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                  decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: '',
+                      enabled: false),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                padding: const EdgeInsets.fromLTRB(10, 50, 10, 0),
+                child: const Text(
+                  "LCD Display",
+                  style: TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.fromLTRB(10, 50, 10, 0),
+                width: 200,
+                height: 100,
+                child: const TextField(
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: '',
+                  ),
+                ),
+              ),
+              Container(
+                  padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
+                  width: 60,
+                  height: 90,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.blue, // background
+                      onPrimary: Colors.white, // foreground
+                    ),
+                    onPressed: _sendDisplayData,
+                    child: const Icon(Icons.mail),
+                  )),
+            ],
+          ),
+        ],
+      ),
       persistentFooterButtons: [
         // We want to enable this button if the scan has NOT started
         // If the scan HAS started, it should be disabled.
@@ -201,8 +291,8 @@ class _HomePageState extends State<HomePage> {
                   primary: Colors.blue, // background
                   onPrimary: Colors.white, // foreground
                 ),
-                onPressed: _partyTime,
-                child: const Icon(Icons.celebration_rounded),
+                onPressed: _readCharacteristic,
+                child: const Icon(Icons.mail),
               )
             // False condition
             : ElevatedButton(
@@ -211,7 +301,7 @@ class _HomePageState extends State<HomePage> {
                   onPrimary: Colors.white, // foreground
                 ),
                 onPressed: _partyTime,
-                child: const Icon(Icons.celebration_rounded),
+                child: const Icon(Icons.mail),
               ),
       ],
     );
