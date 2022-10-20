@@ -1,38 +1,17 @@
 #!/usr/bin/python
-import RPi.GPIO as GPIO
-import time
-
-try:
-      GPIO.setmode(GPIO.BOARD)
-
-      PIN_TRIGGER = 7
-      PIN_ECHO = 11
-
-      GPIO.setup(PIN_TRIGGER, GPIO.OUT)
-      GPIO.setup(PIN_ECHO, GPIO.IN)
-
-      GPIO.output(PIN_TRIGGER, GPIO.LOW)
-
-      print("Waiting for sensor to settle")
-
-      time.sleep(2)
-
-      print("Calculating distance")
-
-      GPIO.output(PIN_TRIGGER, GPIO.HIGH)
-
-      time.sleep(0.00001)
-
-      GPIO.output(PIN_TRIGGER, GPIO.LOW)
-
-      while GPIO.input(PIN_ECHO)==0:
-            pulse_start_time = time.time()
-      while GPIO.input(PIN_ECHO)==1:
-            pulse_end_time = time.time()
-
-      pulse_duration = pulse_end_time - pulse_start_time
-      distance = round(pulse_duration * 17150, 2)
-      print("Distance:",distance,"cm")
-
-finally:
-      GPIO.cleanup()
+import spidev
+ 
+spi = spidev.SpiDev()
+spi.open(0,0)
+spi.max_speed_hz=1000000
+ 
+ 
+def readChannel(channel):
+  val = spi.xfer2([1,(8+channel)<<4,0])
+  data = ((val[1]&3) << 8) + val[2]
+  return data
+  
+if __name__ == "__main__":
+  v=(readChannel(0)/1023.0)*3.3
+  dist = 16.2537 * v**4 - 129.893 * v**3 + 382.268 * v**2 - 512.611 * v + 301.439
+  print("Distanz: %.2f cm" % dist)
