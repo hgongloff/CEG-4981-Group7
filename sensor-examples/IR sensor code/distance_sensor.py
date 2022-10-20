@@ -12,6 +12,7 @@ def readChannel(channel):
   return data
 
 # https://tutorials-raspberrypi.com/infrared-distance-measurement-with-the-raspberry-pi-sharp-gp2y0a02yk0f/
+# spidev libraries may not work properly, see above link for solutions
 if __name__ == "__main__":
   v=(readChannel(0)/1023.0)*3.3
   dist = 16.2537 * v**4 - 129.893 * v**3 + 382.268 * v**2 - 512.611 * v + 301.439
