@@ -1,6 +1,7 @@
 from sensors.speaker import Speaker
 from cargo_bot_ble import CargoBotBle
 import RPi.GPIO as GPIO
+import threading
 
 
 class CargoBot:
@@ -12,7 +13,7 @@ class CargoBot:
         self.cargo_ble = CargoBotBle()
 
     def play_alarm(self):
-        self.speaker.play_alarm()
+        self.run_thread = threading.Thread(target=self.speaker.play_alarm(), args=(1,))
 
     def connect_to_phone(self):
         print("Connecting to mobile device")
