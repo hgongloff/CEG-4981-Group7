@@ -6,11 +6,6 @@ import RPi.GPIO as GPIO
 class CargoBot:
     def __init__(self):
         self.speaker = Speaker(pin=GPIO.PWM(23, 100))
-        GPIO.setwarnings(False)
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(23, GPIO.OUT)
-        pin23 = GPIO.PWM(23, 100)
-        pin23.start(50)
         self.cargo_ble = CargoBotBle()
 
     def play_alarm(self):
