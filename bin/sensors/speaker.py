@@ -3,11 +3,7 @@ from time import sleep
 
 class Speaker:
 
-    def __init__(self, pin):
-        self.pin = pin
-        GPIO.setwarnings(False)
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(23, GPIO.OUT)
+    def __init__(self):
         self.pin = GPIO.PWM(23, 100)
         self.pin.start(50)
 
