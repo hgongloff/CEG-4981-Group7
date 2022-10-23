@@ -1,0 +1,10 @@
+3.	Next install the required libraries (The last 5 must be done in order)
+a.	pip install bluezero
+b.	pip install  zmq
+c.	pip install pygame
+d.	pip install dbus-python
+e.	pip install pycairo
+f.	sudo apt install libglib2.0-dev
+g.	sudo apt install libgirepository1.0-dev
+h.	sudo apt install libcairo2-dev
+i.	pip install PyGObject
