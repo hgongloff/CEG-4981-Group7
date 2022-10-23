@@ -8,6 +8,7 @@ class Speaker:
         #self.pin.start(50)
 
     def play_alarm(self):
+        self.pin.start(50)
         GPIO.output(23, GPIO.HIGH)
         self.pin.ChangeFrequency(16.35) # C0
         sleep(1)
