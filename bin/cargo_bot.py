@@ -13,7 +13,7 @@ class CargoBot:
         self.cargo_ble = CargoBotBle()
 
     def play_alarm(self):
-        self.run_thread = threading.Thread(target=self.speaker.play_alarm(), args=(1,))
+        self.speaker.run_thread.start()
 
     def connect_to_phone(self):
         print("Connecting to mobile device")

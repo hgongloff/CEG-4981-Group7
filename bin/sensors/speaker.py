@@ -1,10 +1,12 @@
 import RPi.GPIO as GPIO
 from time import sleep
+import threading
 
 class Speaker:
 
     def __init__(self):
         self.pin = GPIO.PWM(23, 100)
+        self.run_thread = threading.Thread(target=self.play_alarm, args=(1,))
         #self.pin.start(50)
 
     def play_alarm(self):
