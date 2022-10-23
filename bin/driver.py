@@ -1,4 +1,5 @@
 from cargo_bot import CargoBot
+import sys
 
 
 if __name__ == '__main__':
@@ -16,6 +17,7 @@ if __name__ == '__main__':
         command = input("")
         if (command == ('q')):
             exit_command = True
+            sys.exit()
 
         elif (command == ('1')):
             cargo_bot.play_alarm()
