@@ -5,7 +5,7 @@ class Speaker:
 
     def __init__(self):
         self.pin = GPIO.PWM(23, 100)
-        self.pin.start(50)
+        #self.pin.start(50)
 
     def play_alarm(self):
         GPIO.output(23, GPIO.HIGH)
