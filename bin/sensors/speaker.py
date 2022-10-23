@@ -9,7 +9,8 @@ class Speaker:
         self.run_thread = threading.Thread(target=self.play_alarm, args=(1,))
         #self.pin.start(50)
 
-    def play_alarm(self):
+    def play_alarm(self, name):
+        print(name)
         self.pin.start(50)
         GPIO.output(23, GPIO.HIGH)
         self.pin.ChangeFrequency(16.35) # C0
