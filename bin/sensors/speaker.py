@@ -35,4 +35,5 @@ class Speaker:
         sleep(1)
         GPIO.output(23, GPIO.LOW)
         sleep(1)
+        self.pin.stop()
 
