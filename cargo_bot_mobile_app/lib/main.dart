@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:io' show Platform;
 import 'package:bloc/bloc.dart';
+import 'dart:typed_data';
+import 'dart:convert';
 
 import 'package:location_permissions/location_permissions.dart';
 import 'package:flutter/material.dart';
@@ -154,13 +156,16 @@ class _HomePageState extends State<HomePage> {
 
   void _sendDisplayData() async {
     if (_connected) {
+      String foo = 'Hello world';
+      int bar = 123;
+      List<int> bytes = utf8.encode(bar.toString());
       print("writing to characteristic");
       final characteristic = QualifiedCharacteristic(
           serviceId: serviceUuid,
           characteristicId: characteristicUuid,
           deviceId: 'B8:27:EB:BF:42:C0');
-      flutterReactiveBle
-          .writeCharacteristicWithoutResponse(characteristic, value: [0x00]);
+      flutterReactiveBle.writeCharacteristicWithoutResponse(characteristic,
+          value: bytes);
     }
   }
 
