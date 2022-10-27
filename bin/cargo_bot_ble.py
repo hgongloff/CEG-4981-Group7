@@ -42,6 +42,9 @@ class CargoBotBle:
     def write_value(self, value):
         print('value written')
         print(value)
+        cpu_value = random.randrange(3200, 5310, 10) / 100
+        return list(int(cpu_value * 100).to_bytes(2,
+                                                  byteorder='little', signed=True))
 
     def update_value(self, characteristic):
         """
