@@ -41,7 +41,7 @@ class CargoBotBle:
 
     def write_value(self, value, options):
         print('value written')
-        print(value)
+        print(value.decode())
         print(options)
 
     def update_value(self, characteristic):
