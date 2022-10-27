@@ -154,10 +154,13 @@ class _HomePageState extends State<HomePage> {
 
   void _sendDisplayData() async {
     if (_connected) {
-      await flutterReactiveBle
-          .writeCharacteristicWithResponse(_rxCharacteristic, value: [
-        0xff,
-      ]);
+      print("writing to characteristic");
+      final characteristic = QualifiedCharacteristic(
+          serviceId: serviceUuid,
+          characteristicId: characteristicUuid,
+          deviceId: 'B8:27:EB:BF:42:C0');
+      flutterReactiveBle
+          .writeCharacteristicWithoutResponse(characteristic, value: [0x00]);
     }
   }
 
