@@ -38,7 +38,8 @@ class _HomePageState extends State<HomePage> {
   final Uuid serviceUuid = Uuid.parse("12341000-1234-1234-1234-123456789abc");
   final Uuid characteristicUuid = Uuid.parse("2A6E");
   final Uuid characteristicUuid_2 = Uuid.parse("2904");
-  final String macAddress = 'B8:27:EB:47:39:37'; // Or 'B8:27:EB:BF:42:C0'
+  final String macAddress =
+      'B8:27:EB:BF:42:C0'; // Check new mac address everytime you run the app run hciconfig -a
 
   void _startScan() async {
 // Platform permissions handling stuff
