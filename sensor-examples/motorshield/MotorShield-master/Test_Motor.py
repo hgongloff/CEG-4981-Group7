@@ -27,7 +27,8 @@ try:
 #-----------To Drive the Motors Forward------------# 
         print("Robot Moving Forward ")
         af.on()
-        motorAll.forward(100)
+        motorAll.forward(50)
+        
         time.sleep(5)
 #--------------------------------------------------#
 
