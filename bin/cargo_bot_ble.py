@@ -39,9 +39,10 @@ class CargoBotBle:
         return list(int(cpu_value * 100).to_bytes(2,
                                                   byteorder='little', signed=True))
 
-    def write_value(self, value):
+    def write_value(self, value, options):
         print('value written')
-        print(value)
+        print(value.decode())
+        print(options)
 
     def update_value(self, characteristic):
         """

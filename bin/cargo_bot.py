@@ -21,7 +21,7 @@ class CargoBot:
 
     def send_message(self):
         print("Sending message to mobile device")
-        # self.cargo_ble.send_message()
+        self.cargo_ble.write_value('Hello World!')
 
     def get_message(self):
         print("Getting message from mobile device")
