@@ -1,4 +1,5 @@
 from cargo_bot import CargoBot
+import RPi.GPIO as GPIO
 import sys
 
 
@@ -12,11 +13,13 @@ if __name__ == '__main__':
                   \n Type '2' to connect to ble mobile device\
                   \n Type '3' to send test message to mobile device \
                   \n Type '4' to request message from mobile device \
+                  \n Type '5' to get weight sensor data \
                   \n or type 'q' to quit")
 
         command = input("")
         if (command == ('q')):
             exit_command = True
+            GPIO.cleanup()
             sys.exit()
 
         elif (command == ('1')):
@@ -30,3 +33,6 @@ if __name__ == '__main__':
 
         elif (command == ('4')):
             cargo_bot.get_message()
+
+        elif (command == ('5')):
+            cargo_bot.get_weight()

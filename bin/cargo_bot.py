@@ -1,5 +1,6 @@
 from sensors.speaker import Speaker
 from cargo_bot_ble import CargoBotBle
+from sensors.weight_sensor import WeightSensor
 import RPi.GPIO as GPIO
 import threading
 
@@ -10,6 +11,7 @@ class CargoBot:
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(23, GPIO.OUT)
         self.speaker = Speaker()
+        self.weight_sensor = WeightSensor()
         self.cargo_ble = CargoBotBle()
 
     def play_alarm(self):
@@ -26,6 +28,9 @@ class CargoBot:
     def get_message(self):
         print("Getting message from mobile device")
         # self.cargo_ble.get_message()
+
+    def get_weight(self):
+        return self.weight_sensor.get_weight()
 
     def get_cargo(self):
         return self.cargo
