@@ -38,6 +38,7 @@ class _HomePageState extends State<HomePage> {
   final Uuid serviceUuid = Uuid.parse("12341000-1234-1234-1234-123456789abc");
   final Uuid characteristicUuid = Uuid.parse("2A6E");
   final Uuid characteristicUuid_2 = Uuid.parse("2904");
+  final String macAddress = 'B8:27:EB:47:39:37'; // Or 'B8:27:EB:BF:42:C0'
 
   void _startScan() async {
 // Platform permissions handling stuff
@@ -87,7 +88,7 @@ class _HomePageState extends State<HomePage> {
             _rxCharacteristic = QualifiedCharacteristic(
                 serviceId: serviceUuid,
                 characteristicId: characteristicUuid,
-                deviceId: 'B8:27:EB:BF:42:C0');
+                deviceId: macAddress);
             setState(() {
               _foundDeviceWaitingToConnect = false;
               _connected = true;
@@ -109,7 +110,7 @@ class _HomePageState extends State<HomePage> {
     _scanStream.cancel();
     flutterReactiveBle
         .connectToDevice(
-      id: 'B8:27:EB:BF:42:C0',
+      id: macAddress,
       servicesWithCharacteristicsToDiscover: {
         serviceUuid: [characteristicUuid, characteristicUuid_2]
       },
@@ -123,10 +124,11 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _readCharacteristic() async {
+    print("reading");
     final characteristic = QualifiedCharacteristic(
         serviceId: serviceUuid,
         characteristicId: characteristicUuid,
-        deviceId: 'B8:27:EB:BF:42:C0');
+        deviceId: macAddress);
     final response =
         await flutterReactiveBle.readCharacteristic(characteristic);
     print(response);
@@ -137,14 +139,14 @@ class _HomePageState extends State<HomePage> {
       final characteristic = QualifiedCharacteristic(
           serviceId: serviceUuid,
           characteristicId: characteristicUuid,
-          deviceId: 'B8:27:EB:BF:42:C0');
+          deviceId: macAddress);
       final response =
           await flutterReactiveBle.readCharacteristic(characteristic);
       print(response);
       // final characteristic = QualifiedCharacteristic(
       //     serviceId: serviceUuid,
       //     characteristicId: characteristicUuid,
-      //     deviceId: 'B8:27:EB:BF:42:C0');
+      //     deviceId: macAddress);
       // flutterReactiveBle.subscribeToCharacteristic(characteristic).listen(
       //     (data) {
       //   // code to handle incoming data
@@ -163,7 +165,7 @@ class _HomePageState extends State<HomePage> {
       final characteristic = QualifiedCharacteristic(
           serviceId: serviceUuid,
           characteristicId: characteristicUuid,
-          deviceId: 'B8:27:EB:BF:42:C0');
+          deviceId: macAddress);
       flutterReactiveBle.writeCharacteristicWithoutResponse(characteristic,
           value: bytes);
     }
