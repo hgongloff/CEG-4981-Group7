@@ -14,12 +14,19 @@ if __name__ == '__main__':
                   \n Type '3' to send test message to mobile device \
                   \n Type '4' to request message from mobile device \
                   \n Type '5' to get weight sensor data \
+                  \n Type '6' to get distance sensor data \
+                  \n Type '7' to get a picture with the camera\
+                  \n Type '8' to move forward for one second\
+                  \n Type '9' to stop ble thread \
                   \n or type 'q' to quit")
 
         command = input("")
         if (command == ('q')):
             exit_command = True
+            cargo_bot.stop_threads()
             GPIO.cleanup()
+            print("cleaned up GPIO")
+            print("Exiting program")
             sys.exit()
 
         elif (command == ('1')):
@@ -36,3 +43,16 @@ if __name__ == '__main__':
 
         elif (command == ('5')):
             cargo_bot.get_weight()
+
+        elif (command == ('6')):
+            cargo_bot.get_distance()
+
+        elif (command == ('7')):
+            cargo_bot.get_picture()
+
+        elif (command == ('8')):
+            cargo_bot.move_forward()
+
+        elif (command == ('9')):
+            cargo_bot.stop_threads()
+        

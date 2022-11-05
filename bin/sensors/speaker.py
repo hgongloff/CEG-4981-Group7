@@ -37,3 +37,9 @@ class Speaker:
         sleep(1)
         self.pin.stop()
 
+    def stop_thread(self):
+        print("stop thread")
+        self.run_thread.join()
+        print("thread stopped")
+        return
+

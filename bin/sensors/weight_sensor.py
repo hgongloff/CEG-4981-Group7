@@ -1,7 +1,7 @@
 import RPi.GPIO as GPIO
 import time
 import sys
-from hx711 import HX711
+from sensors.hx711 import HX711
 
 
 class WeightSensor:

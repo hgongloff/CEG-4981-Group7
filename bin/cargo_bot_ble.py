@@ -19,7 +19,7 @@ CPU_TMP_CHRC = '2A6E'
 CPU_FMT_DSCP = '2904'
 
 
-class CargoBotBle:
+class CargoBotBle():
 
     def read_value(self):
         """
@@ -35,12 +35,12 @@ class CargoBotBle:
         :return: list of uint8 values
         """
         print("value read")
-        cpu_value = random.randrange(3200, 5310, 10) / 100
-        return list(int(cpu_value * 100).to_bytes(2,
-                                                  byteorder='little', signed=True))
+        #cpu_value = self.current_weight
+        return self.current_weight.to_bytes(2,
+                                                  byteorder='little', signed=True)
 
     def write_value(self, value, options):
-        print('value written')
+        print(value)
         print(value.decode())
         print(options)
 
@@ -77,11 +77,20 @@ class CargoBotBle:
         print("broadcast")
         print(name)
         self.cpu_monitor.publish()
+    
+    def stop_thread(self):
+        self.cpu_monitor.mainloop.quit()
+        print("stop thread")
+        self.run_thread.join()
+        print("thread stopped")
+        return
 
     def __init__(self):
         adapter_address = list(adapter.Adapter.available())[0].address
         # threading.Thread.__init__(self)
         self.run_thread = threading.Thread(target=self.broadcast, args=(1,))
+        self._running = True
+        self.current_weight = 0
         """Creation of peripheral"""
         logger = logging.getLogger('localGATT')
         logger.setLevel(logging.DEBUG)
