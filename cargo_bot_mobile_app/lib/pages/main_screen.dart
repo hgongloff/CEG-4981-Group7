@@ -8,23 +8,14 @@ import 'package:location_permissions/location_permissions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_reactive_ble/flutter_reactive_ble.dart';
 
-void main() {
-  return runApp(
-    const MaterialApp(
-      home: HomePage(),
-      debugShowCheckedModeBanner: false,
-    ),
-  );
-}
-
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class MainScreen extends StatefulWidget {
+  const MainScreen({Key? key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _MainScreenState createState() => _MainScreenState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _MainScreenState extends State<MainScreen> {
 // Some state management stuff
   bool _foundDeviceWaitingToConnect = false;
   bool _scanStarted = false;
@@ -250,6 +241,34 @@ class _HomePageState extends State<HomePage> {
                     onPressed: _sendDisplayData,
                     child: const Icon(Icons.mail),
                   )),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                padding: const EdgeInsets.fromLTRB(10, 50, 10, 0),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.red, // background
+                    onPrimary: Colors.white, // foreground
+                  ),
+                  onPressed: _partyTime,
+                  child: const Text('Stop'),
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.fromLTRB(10, 50, 10, 0),
+                // Make a green button that says go
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.green, // background
+                    onPrimary: Colors.white, // foreground
+                  ),
+                  onPressed: _partyTime,
+                  child: const Text('Go'),
+                ),
+              ),
             ],
           ),
         ],

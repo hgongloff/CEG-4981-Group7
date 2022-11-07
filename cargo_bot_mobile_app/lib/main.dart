@@ -1,4 +1,5 @@
 import 'package:cargo_bot_mobile_app/bloc/cargo_bot_cubit.dart';
+import 'package:cargo_bot_mobile_app/pages/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,9 +21,10 @@ class AppWidget extends StatelessWidget {
           Center(
             child: Container(
               width: 1200,
-              height: 900,
+              height: 834,
               child: BlocProvider<CargoBotCubit>(
                 create: (context) => CargoBotCubit(),
+                child: const MainScreen(),
               ),
             ),
           )
