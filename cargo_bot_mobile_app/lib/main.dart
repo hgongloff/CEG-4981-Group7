@@ -21,7 +21,7 @@ class AppWidget extends StatelessWidget {
           Center(
             child: Container(
               width: 1200,
-              height: 834,
+              height: 830,
               child: BlocProvider<CargoBotCubit>(
                 create: (context) => CargoBotCubit(),
                 child: const MainScreen(),

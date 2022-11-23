@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:io' show Platform;
 import 'package:bloc/bloc.dart';
+import 'package:cargo_bot_mobile_app/bloc/cargo_bot_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:typed_data';
 import 'dart:convert';
 
@@ -150,9 +152,8 @@ class _MainScreenState extends State<MainScreen> {
 
   void _sendDisplayData() async {
     if (_connected) {
-      String foo = 'Hello world';
-      int bar = 123;
-      List<int> bytes = utf8.encode(bar.toString());
+      String dataToSend = context.read<CargoBotCubit>().state.lcdText;
+      List<int> bytes = utf8.encode(dataToSend);
       print("writing to characteristic");
       final characteristic = QualifiedCharacteristic(
           serviceId: serviceUuid,
@@ -219,14 +220,19 @@ class _MainScreenState extends State<MainScreen> {
                 padding: const EdgeInsets.fromLTRB(10, 50, 10, 0),
                 width: 200,
                 height: 100,
-                child: const TextField(
-                  style: TextStyle(
+                child: TextField(
+                  style: const TextStyle(
                     fontSize: 20,
                   ),
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: '',
                   ),
+                  onChanged: (text) {
+                    if (text != null) {
+                      context.read<CargoBotCubit>().updatelcdScreenText(text);
+                    }
+                  },
                 ),
               ),
               Container(
