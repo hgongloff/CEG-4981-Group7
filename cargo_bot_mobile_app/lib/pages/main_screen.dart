@@ -164,6 +164,90 @@ class _MainScreenState extends State<MainScreen> {
     }
   }
 
+  void _sendGoCommand() async {
+    if (_connected) {
+      String dataToSend = "go";
+      List<int> bytes = utf8.encode(dataToSend);
+      print("writing to characteristic");
+      final characteristic = QualifiedCharacteristic(
+          serviceId: serviceUuid,
+          characteristicId: characteristicUuid,
+          deviceId: macAddress);
+      flutterReactiveBle.writeCharacteristicWithoutResponse(characteristic,
+          value: bytes);
+    }
+  }
+
+  void _sendStopCommand() async {
+    if (_connected) {
+      String dataToSend = "stop";
+      List<int> bytes = utf8.encode(dataToSend);
+      print("writing to characteristic");
+      final characteristic = QualifiedCharacteristic(
+          serviceId: serviceUuid,
+          characteristicId: characteristicUuid,
+          deviceId: macAddress);
+      flutterReactiveBle.writeCharacteristicWithoutResponse(characteristic,
+          value: bytes);
+    }
+  }
+
+  void _sendLeftCommand() async {
+    if (_connected) {
+      String dataToSend = "left";
+      List<int> bytes = utf8.encode(dataToSend);
+      print("writing to characteristic");
+      final characteristic = QualifiedCharacteristic(
+          serviceId: serviceUuid,
+          characteristicId: characteristicUuid,
+          deviceId: macAddress);
+      flutterReactiveBle.writeCharacteristicWithoutResponse(characteristic,
+          value: bytes);
+    }
+  }
+
+  void _sendRightCommand() async {
+    if (_connected) {
+      String dataToSend = "right";
+      List<int> bytes = utf8.encode(dataToSend);
+      print("writing to characteristic");
+      final characteristic = QualifiedCharacteristic(
+          serviceId: serviceUuid,
+          characteristicId: characteristicUuid,
+          deviceId: macAddress);
+      flutterReactiveBle.writeCharacteristicWithoutResponse(characteristic,
+          value: bytes);
+    }
+  }
+
+  void _sendBackCommand() async {
+    if (_connected) {
+      String dataToSend = "back";
+      List<int> bytes = utf8.encode(dataToSend);
+      print("writing to characteristic");
+      final characteristic = QualifiedCharacteristic(
+          serviceId: serviceUuid,
+          characteristicId: characteristicUuid,
+          deviceId: macAddress);
+      flutterReactiveBle.writeCharacteristicWithoutResponse(characteristic,
+          value: bytes);
+    }
+  }
+
+  void _sendAlarmCommand() async {
+    if (_connected) {
+      String dataToSend = "alarm";
+      List<int> bytes = utf8.encode(dataToSend);
+      print("writing to characteristic");
+      final characteristic = QualifiedCharacteristic(
+          serviceId: serviceUuid,
+          characteristicId: characteristicUuid,
+          deviceId: macAddress);
+      flutterReactiveBle.writeCharacteristicWithoutResponse(characteristic,
+          value: bytes);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -222,7 +306,7 @@ class _MainScreenState extends State<MainScreen> {
                 height: 100,
                 // Make this text field only accept numbers
                 child: TextField(
-                  textInputAction: TextInputAction.done,
+                  keyboardType: TextInputType.number,
                   style: const TextStyle(
                     fontSize: 20,
                   ),
@@ -264,7 +348,7 @@ class _MainScreenState extends State<MainScreen> {
                     backgroundColor: Colors.blue, // background
                     foregroundColor: Colors.white, // foreground
                   ),
-                  onPressed: _partyTime,
+                  onPressed: _sendLeftCommand,
                   child: const Icon(Icons.arrow_back),
                 ),
               ),
@@ -277,7 +361,7 @@ class _MainScreenState extends State<MainScreen> {
                     backgroundColor: Colors.blue, // background
                     foregroundColor: Colors.white, // foreground
                   ),
-                  onPressed: _partyTime,
+                  onPressed: _sendBackCommand,
                   child: const Icon(Icons.arrow_downward),
                 ),
               ),
@@ -290,7 +374,7 @@ class _MainScreenState extends State<MainScreen> {
                     backgroundColor: Colors.blue, // background
                     foregroundColor: Colors.white, // foreground
                   ),
-                  onPressed: _partyTime,
+                  onPressed: _sendRightCommand,
                   child: const Icon(Icons.arrow_forward),
                 ),
               ),
@@ -306,7 +390,7 @@ class _MainScreenState extends State<MainScreen> {
                     backgroundColor: Colors.red, // background
                     foregroundColor: Colors.white, // foreground
                   ),
-                  onPressed: _partyTime,
+                  onPressed: _sendStopCommand,
                   child: const Text('Stop'),
                 ),
               ),
@@ -318,7 +402,7 @@ class _MainScreenState extends State<MainScreen> {
                     backgroundColor: Colors.green, // background
                     foregroundColor: Colors.white, // foreground
                   ),
-                  onPressed: _partyTime,
+                  onPressed: _sendGoCommand,
                   child: const Text('Go'),
                 ),
               ),
@@ -334,7 +418,7 @@ class _MainScreenState extends State<MainScreen> {
                     backgroundColor: Colors.orange, // background
                     foregroundColor: Colors.white, // foreground
                   ),
-                  onPressed: _partyTime,
+                  onPressed: _sendAlarmCommand,
                   child: const Text('Alarm'),
                 ),
               ),
