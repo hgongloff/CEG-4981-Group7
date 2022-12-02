@@ -210,7 +210,7 @@ class _MainScreenState extends State<MainScreen> {
               Container(
                 padding: const EdgeInsets.fromLTRB(10, 50, 10, 0),
                 child: const Text(
-                  "LCD Display",
+                  "Set Speed",
                   style: TextStyle(
                     fontSize: 16,
                   ),
@@ -220,7 +220,9 @@ class _MainScreenState extends State<MainScreen> {
                 padding: const EdgeInsets.fromLTRB(10, 50, 10, 0),
                 width: 200,
                 height: 100,
+                // Make this text field only accept numbers
                 child: TextField(
+                  textInputAction: TextInputAction.done,
                   style: const TextStyle(
                     fontSize: 20,
                   ),
@@ -241,12 +243,57 @@ class _MainScreenState extends State<MainScreen> {
                   height: 90,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.blue, // background
-                      onPrimary: Colors.white, // foreground
+                      backgroundColor: Colors.blue, // background
+                      foregroundColor: Colors.white, // foreground
                     ),
                     onPressed: _sendDisplayData,
                     child: const Icon(Icons.mail),
                   )),
+            ],
+          ),
+          // Make a row of arrow buttons
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                padding: const EdgeInsets.fromLTRB(10, 50, 10, 0),
+                width: 80,
+                height: 90,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue, // background
+                    foregroundColor: Colors.white, // foreground
+                  ),
+                  onPressed: _partyTime,
+                  child: const Icon(Icons.arrow_back),
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.fromLTRB(10, 50, 10, 0),
+                width: 80,
+                height: 90,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue, // background
+                    foregroundColor: Colors.white, // foreground
+                  ),
+                  onPressed: _partyTime,
+                  child: const Icon(Icons.arrow_downward),
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.fromLTRB(10, 50, 10, 0),
+                width: 80,
+                height: 90,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue, // background
+                    foregroundColor: Colors.white, // foreground
+                  ),
+                  onPressed: _partyTime,
+                  child: const Icon(Icons.arrow_forward),
+                ),
+              ),
             ],
           ),
           Row(
@@ -256,8 +303,8 @@ class _MainScreenState extends State<MainScreen> {
                 padding: const EdgeInsets.fromLTRB(10, 50, 10, 0),
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.red, // background
-                    onPrimary: Colors.white, // foreground
+                    backgroundColor: Colors.red, // background
+                    foregroundColor: Colors.white, // foreground
                   ),
                   onPressed: _partyTime,
                   child: const Text('Stop'),
@@ -268,11 +315,27 @@ class _MainScreenState extends State<MainScreen> {
                 // Make a green button that says go
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.green, // background
-                    onPrimary: Colors.white, // foreground
+                    backgroundColor: Colors.green, // background
+                    foregroundColor: Colors.white, // foreground
                   ),
                   onPressed: _partyTime,
                   child: const Text('Go'),
+                ),
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                padding: const EdgeInsets.fromLTRB(10, 50, 10, 0),
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.orange, // background
+                    foregroundColor: Colors.white, // foreground
+                  ),
+                  onPressed: _partyTime,
+                  child: const Text('Alarm'),
                 ),
               ),
             ],
@@ -286,8 +349,8 @@ class _MainScreenState extends State<MainScreen> {
             // True condition
             ? ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.grey, // background
-                  onPrimary: Colors.white, // foreground
+                  backgroundColor: Colors.grey, // background
+                  foregroundColor: Colors.white, // foreground
                 ),
                 onPressed: () {},
                 child: const Icon(Icons.search),
@@ -295,8 +358,8 @@ class _MainScreenState extends State<MainScreen> {
             // False condition
             : ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.blue, // background
-                  onPrimary: Colors.white, // foreground
+                  backgroundColor: Colors.blue, // background
+                  foregroundColor: Colors.white, // foreground
                 ),
                 onPressed: _startScan,
                 child: const Icon(Icons.search),
@@ -305,8 +368,8 @@ class _MainScreenState extends State<MainScreen> {
             // True condition
             ? ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.blue, // background
-                  onPrimary: Colors.white, // foreground
+                  backgroundColor: Colors.blue, // background
+                  foregroundColor: Colors.white, // foreground
                 ),
                 onPressed: _connectToDevice,
                 child: const Icon(Icons.bluetooth),
@@ -314,8 +377,8 @@ class _MainScreenState extends State<MainScreen> {
             // False condition
             : ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.grey, // background
-                  onPrimary: Colors.white, // foreground
+                  backgroundColor: Colors.grey, // background
+                  foregroundColor: Colors.white, // foreground
                 ),
                 onPressed: () {},
                 child: const Icon(Icons.bluetooth),
@@ -324,8 +387,8 @@ class _MainScreenState extends State<MainScreen> {
             // True condition
             ? ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.blue, // background
-                  onPrimary: Colors.white, // foreground
+                  backgroundColor: Colors.blue, // background
+                  foregroundColor: Colors.white, // foreground
                 ),
                 onPressed: _readCharacteristic,
                 child: const Icon(Icons.mail),
@@ -333,8 +396,8 @@ class _MainScreenState extends State<MainScreen> {
             // False condition
             : ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.grey, // background
-                  onPrimary: Colors.white, // foreground
+                  backgroundColor: Colors.grey, // background
+                  foregroundColor: Colors.white, // foreground
                 ),
                 onPressed: _partyTime,
                 child: const Icon(Icons.mail),
