@@ -6,7 +6,7 @@ import 'package:flutter/rendering.dart';
 class CargoBot extends Equatable {
   CargoBot(this.weightLoad, this.lcdText);
 
-  double weightLoad;
+  String weightLoad;
   String lcdText;
 
   @override
@@ -14,7 +14,7 @@ class CargoBot extends Equatable {
 }
 
 class CargoBotCubit extends Cubit<CargoBot> {
-  CargoBotCubit() : super(CargoBot(0, ''));
+  CargoBotCubit() : super(CargoBot('', ''));
 
   void updateCurrentWeightLoad(newWeightLoad) =>
       state.weightLoad = newWeightLoad;

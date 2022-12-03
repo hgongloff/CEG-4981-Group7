@@ -128,6 +128,21 @@ class _MainScreenState extends State<MainScreen> {
     print(response);
   }
 
+  void _readWeight() async {
+    print("reading");
+    final characteristic = QualifiedCharacteristic(
+        serviceId: serviceUuid,
+        characteristicId: characteristicUuid,
+        deviceId: macAddress);
+    final response =
+        await flutterReactiveBle.readCharacteristic(characteristic);
+    print(response);
+    // Convert the response to a string
+    String weight = utf8.decode(response);
+    // Update the state
+    context.read<CargoBotCubit>().updateCurrentWeightLoad(weight);
+  }
+
   void _partyTime() async {
     if (_connected) {
       final characteristic = QualifiedCharacteristic(
@@ -166,7 +181,7 @@ class _MainScreenState extends State<MainScreen> {
 
   void _sendGoCommand() async {
     if (_connected) {
-      String dataToSend = "go";
+      String dataToSend = "Go";
       List<int> bytes = utf8.encode(dataToSend);
       print("writing to characteristic");
       final characteristic = QualifiedCharacteristic(
@@ -180,7 +195,7 @@ class _MainScreenState extends State<MainScreen> {
 
   void _sendStopCommand() async {
     if (_connected) {
-      String dataToSend = "stop";
+      String dataToSend = "Stop";
       List<int> bytes = utf8.encode(dataToSend);
       print("writing to characteristic");
       final characteristic = QualifiedCharacteristic(
@@ -194,7 +209,7 @@ class _MainScreenState extends State<MainScreen> {
 
   void _sendLeftCommand() async {
     if (_connected) {
-      String dataToSend = "left";
+      String dataToSend = "Left";
       List<int> bytes = utf8.encode(dataToSend);
       print("writing to characteristic");
       final characteristic = QualifiedCharacteristic(
@@ -208,7 +223,7 @@ class _MainScreenState extends State<MainScreen> {
 
   void _sendRightCommand() async {
     if (_connected) {
-      String dataToSend = "right";
+      String dataToSend = "Right";
       List<int> bytes = utf8.encode(dataToSend);
       print("writing to characteristic");
       final characteristic = QualifiedCharacteristic(
@@ -222,7 +237,7 @@ class _MainScreenState extends State<MainScreen> {
 
   void _sendBackCommand() async {
     if (_connected) {
-      String dataToSend = "back";
+      String dataToSend = "Back";
       List<int> bytes = utf8.encode(dataToSend);
       print("writing to characteristic");
       final characteristic = QualifiedCharacteristic(
@@ -236,7 +251,7 @@ class _MainScreenState extends State<MainScreen> {
 
   void _sendAlarmCommand() async {
     if (_connected) {
-      String dataToSend = "alarm";
+      String dataToSend = "Alarm";
       List<int> bytes = utf8.encode(dataToSend);
       print("writing to characteristic");
       final characteristic = QualifiedCharacteristic(
@@ -276,14 +291,28 @@ class _MainScreenState extends State<MainScreen> {
                 padding: const EdgeInsets.fromLTRB(10, 50, 10, 0),
                 width: 100,
                 height: 100,
-                child: const TextField(
+                child: TextField(
                   style: TextStyle(
                     fontSize: 20,
                   ),
                   decoration: InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: '',
+                      labelText: context.read<CargoBotCubit>().state.weightLoad,
                       enabled: false),
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.fromLTRB(10, 50, 10, 0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    _readWeight();
+                  },
+                  child: const Text(
+                    "Read",
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -294,7 +323,7 @@ class _MainScreenState extends State<MainScreen> {
               Container(
                 padding: const EdgeInsets.fromLTRB(10, 50, 10, 0),
                 child: const Text(
-                  "Set Speed",
+                  "Speed",
                   style: TextStyle(
                     fontSize: 16,
                   ),
@@ -331,7 +360,12 @@ class _MainScreenState extends State<MainScreen> {
                       foregroundColor: Colors.white, // foreground
                     ),
                     onPressed: _sendDisplayData,
-                    child: const Icon(Icons.mail),
+                    child: const Text(
+                      "Set",
+                      style: TextStyle(
+                        fontSize: 16,
+                      ),
+                    ),
                   )),
             ],
           ),
