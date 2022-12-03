@@ -38,7 +38,7 @@ class Motor:
 
     def move_backward(self, name):
         print("Robot Moving Backward ")
-        self.motorAll.reverse(50)
+        self.motorAll.reverse(100)
         time.sleep(2)
         self.motorAll.stop()
     

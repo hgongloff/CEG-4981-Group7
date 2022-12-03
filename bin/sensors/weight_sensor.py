@@ -7,7 +7,7 @@ from sensors.hx711 import HX711
 class WeightSensor:
 
     def __init__(self):
-        self.hx = HX711(6, 5)
+        self.hx = HX711(35, 33)
         self.hx.set_offset(9049133.5625)
         self.hx.set_scale(456.48)
 

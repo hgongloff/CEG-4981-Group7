@@ -22,10 +22,10 @@ if __name__ == '__main__':
         command = input("")
         if (command == ('q')):
             exit_command = True
-            cargo_bot.stop_threads()
             GPIO.cleanup()
             print("cleaned up GPIO")
             print("Exiting program")
+            cargo_bot.stop_threads()
             sys.exit()
 
         elif (command == ('1')):

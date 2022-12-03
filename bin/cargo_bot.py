@@ -12,8 +12,8 @@ from sensors.motor import Motor
 class CargoBot:
     def __init__(self):
         GPIO.setwarnings(False)
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(23, GPIO.OUT)
+        GPIO.setmode(GPIO.BOARD)
+        GPIO.setup(31, GPIO.OUT)
         self.speaker = Speaker()
         self.weight_sensor = WeightSensor()
         self.cargo_ble = CargoBotBle()
@@ -74,7 +74,7 @@ class CargoBot:
                 print("Go")
                 self.motor.forward_thread.start()
                 self.motor.forward_thread.join()
-                self.motor.forward_thread = threading.Thread(target=self.motor.forward)
+                self.motor.forward_thread = threading.Thread(target=self.motor.move_forward,  args=(1,))
                 command = ""
                 self.cargo_ble.current_command = ""
             elif (command == 'Stop'):
@@ -90,21 +90,21 @@ class CargoBot:
                 print("Back")
                 self.motor.backward_thread.start()
                 self.motor.backward_thread.join()
-                self.motor.backward_thread = threading.Thread(target=self.motor.backward)
+                self.motor.backward_thread = threading.Thread(target=self.motor.move_backward,  args=(1,))
                 command = ""
                 self.cargo_ble.current_command = ""
             elif (command == 'Left'):
                 print("Left")
                 self.motor.left_thread.start()
                 self.motor.left_thread.join()
-                self.motor.left_thread = threading.Thread(target=self.motor.left)
+                self.motor.left_thread = threading.Thread(target=self.motor.move_left,  args=(1,))
                 command = ""
                 self.cargo_ble.current_command = ""
             elif (command == 'Right'):
                 print("Right")
                 self.motor.right_thread.start()
                 self.motor.right_thread.join()
-                self.motor.right_thread = threading.Thread(target=self.motor.right)
+                self.motor.right_thread = threading.Thread(target=self.motor.move_right,  args=(1,))
                 command = ""
                 self.cargo_ble.current_command = ""
             time.sleep(0.1)
