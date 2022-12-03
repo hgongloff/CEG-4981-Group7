@@ -73,6 +73,8 @@ class CargoBot:
             if (command == 'Go'):
                 print("Go")
                 self.motor.forward_thread.start()
+                self.motor.forward_thread.join()
+                self.motor.forward_thread = threading.Thread(target=self.motor.forward)
                 command = ""
                 self.cargo_ble.current_command = ""
             elif (command == 'Stop'):
@@ -87,16 +89,22 @@ class CargoBot:
             elif (command == 'Back'):
                 print("Back")
                 self.motor.backward_thread.start()
+                self.motor.backward_thread.join()
+                self.motor.backward_thread = threading.Thread(target=self.motor.backward)
                 command = ""
                 self.cargo_ble.current_command = ""
             elif (command == 'Left'):
                 print("Left")
                 self.motor.left_thread.start()
+                self.motor.left_thread.join()
+                self.motor.left_thread = threading.Thread(target=self.motor.left)
                 command = ""
                 self.cargo_ble.current_command = ""
             elif (command == 'Right'):
                 print("Right")
                 self.motor.right_thread.start()
+                self.motor.right_thread.join()
+                self.motor.right_thread = threading.Thread(target=self.motor.right)
                 command = ""
                 self.cargo_ble.current_command = ""
             time.sleep(0.1)
