@@ -40,9 +40,9 @@ class CargoBotBle():
                                                   byteorder='little', signed=True)
 
     def write_value(self, value, options):
-        #print(value)
-        #print(value.decode())
-        #print(options)
+        print(value)
+        print(value.decode())
+        print(options)
         self.current_command = value.decode()
 
     def update_value(self, characteristic):
