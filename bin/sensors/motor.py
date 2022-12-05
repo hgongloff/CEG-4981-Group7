@@ -12,6 +12,8 @@ class Motor:
         self.backward_thread = threading.Thread(target=self.move_backward, args=(1,))
         self.left_thread = threading.Thread(target=self.move_left, args=(1,))
         self.right_thread = threading.Thread(target=self.move_right, args=(1,))
+        self.thread_running = False
+        self.thread_finished = False
         #Name of Individual MOTORS 
         self.m1 = PiMotor.Motor("MOTOR1",1)
         self.m2 = PiMotor.Motor("MOTOR2",1)
@@ -33,31 +35,51 @@ class Motor:
     def move_forward(self, name):
         print("Robot Moving Forward ")
         self.motorAll.forward(50)
-        time.sleep(2)
+        for i in range(20):
+            if self.thread_running:
+                time.sleep(0.1)
+            else:
+                break
         self.motorAll.stop()
+        self.thread_finished = True
 
     def move_backward(self, name):
         print("Robot Moving Backward ")
         self.motorAll.reverse(100)
-        time.sleep(2)
+        for i in range(20):
+            if self.thread_running:
+                time.sleep(0.1)
+            else:
+                break
         self.motorAll.stop()
+        self.thread_finished = True
     
     def move_left(self, name):
         print("Robot Moving Left ")
-        self.m2.forward(50)
-        self.m4.forward(50)
-        time.sleep(2)
+        self.m2.forward(100)
+        self.m4.forward(100)
+        for i in range(20):
+            if self.thread_running:
+                time.sleep(0.1)
+            else:
+                break
         self.m2.stop()
         self.m4.stop()
+        self.thread_finished = True
 
 
     def move_right(self, name):
         print("Robot Moving Right ")
-        self.m1.forward(50)
-        self.m3.forward(50)
-        time.sleep(2)
+        self.m1.forward(100)
+        self.m3.forward(100)
+        for i in range(20):
+            if self.thread_running:
+                time.sleep(0.1)
+            else:
+                break
         self.m1.stop()
         self.m3.stop()
+        self.thread_finished = True
 
     def stop_moving(self):
         self.motorAll.stop()

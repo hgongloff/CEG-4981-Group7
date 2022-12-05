@@ -20,8 +20,11 @@ class CargoBot:
         self.motor = Motor()
         self.get_command_thread = threading.Thread(target=self.get_command)
         #self.distance_senor = DistanceSensor()
-        self.camera = Camera()
+        #self.camera = Camera()
         self.get_command_thread.start()
+        self.current_thread = ""
+        self.command_thread_map = {'forward': self.motor.forward_thread, 'backward': self.motor.backward_thread, 'left': self.motor.left_thread, 'right': self.motor.right_thread}
+        self.command_map = {'forward': self.motor.move_forward, 'backward': self.motor.move_backward, 'left': self.motor.move_left, 'right': self.motor.move_right}
 
     def play_alarm(self):
         self.speaker.run_thread.start()
@@ -69,17 +72,25 @@ class CargoBot:
 
     def get_command(self):
         while True:
+            if self.motor.thread_finished:
+                self.motor.thread_finished = False
+                self.motor.thread_running = False
+                print("thread finished")
+                self.command_thread_map[self.current_thread].join()
+                self.command_thread_map[self.current_thread] = threading.Thread(target=self.command_map[self.current_thread],  args=(1,))
+
             command = self.cargo_ble.current_command
             if (command == 'Go'):
                 print("Go")
-                self.motor.forward_thread.start()
-                self.motor.forward_thread.join()
-                self.motor.forward_thread = threading.Thread(target=self.motor.move_forward,  args=(1,))
+                self.current_thread = "forward"
+                self.motor.thread_running = True
+                self.command_thread_map[self.current_thread].start()
                 command = ""
                 self.cargo_ble.current_command = ""
             elif (command == 'Stop'):
                 print("Stop")
-                self.motor.stop_moving()
+                self.motor.thread_running = False
+                self.motor.thread_finished = True
                 command = ""
                 self.cargo_ble.current_command = ""
             elif (command == 'Alarm'):
@@ -88,23 +99,23 @@ class CargoBot:
                 self.cargo_ble.current_command = ""
             elif (command == 'Back'):
                 print("Back")
-                self.motor.backward_thread.start()
-                self.motor.backward_thread.join()
-                self.motor.backward_thread = threading.Thread(target=self.motor.move_backward,  args=(1,))
+                self.current_thread = "backward"
+                self.motor.thread_running = True
+                self.command_thread_map[self.current_thread].start()
                 command = ""
                 self.cargo_ble.current_command = ""
             elif (command == 'Left'):
                 print("Left")
-                self.motor.left_thread.start()
-                self.motor.left_thread.join()
-                self.motor.left_thread = threading.Thread(target=self.motor.move_left,  args=(1,))
+                self.current_thread = "left"
+                self.motor.thread_running = True
+                self.command_thread_map[self.current_thread].start()
                 command = ""
                 self.cargo_ble.current_command = ""
             elif (command == 'Right'):
                 print("Right")
-                self.motor.right_thread.start()
-                self.motor.right_thread.join()
-                self.motor.right_thread = threading.Thread(target=self.motor.move_right,  args=(1,))
+                self.current_thread = "right"
+                self.motor.thread_running = True
+                self.command_thread_map[self.current_thread].start()
                 command = ""
                 self.cargo_ble.current_command = ""
             time.sleep(0.1)
