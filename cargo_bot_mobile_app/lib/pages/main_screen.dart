@@ -168,6 +168,7 @@ class _MainScreenState extends State<MainScreen> {
   void _sendDisplayData() async {
     if (_connected) {
       String dataToSend = context.read<CargoBotCubit>().state.lcdText;
+      dataToSend = "Speed $dataToSend";
       List<int> bytes = utf8.encode(dataToSend);
       print("writing to characteristic");
       final characteristic = QualifiedCharacteristic(
@@ -196,6 +197,20 @@ class _MainScreenState extends State<MainScreen> {
   void _sendStopCommand() async {
     if (_connected) {
       String dataToSend = "Stop";
+      List<int> bytes = utf8.encode(dataToSend);
+      print("writing to characteristic");
+      final characteristic = QualifiedCharacteristic(
+          serviceId: serviceUuid,
+          characteristicId: characteristicUuid,
+          deviceId: macAddress);
+      flutterReactiveBle.writeCharacteristicWithoutResponse(characteristic,
+          value: bytes);
+    }
+  }
+
+  void _sendForwardCommand() async {
+    if (_connected) {
+      String dataToSend = "Forward";
       List<int> bytes = utf8.encode(dataToSend);
       print("writing to characteristic");
       final characteristic = QualifiedCharacteristic(
@@ -397,6 +412,19 @@ class _MainScreenState extends State<MainScreen> {
                   ),
                   onPressed: _sendBackCommand,
                   child: const Icon(Icons.arrow_downward),
+                ),
+              ),
+              Container(
+                padding: const EdgeInsets.fromLTRB(10, 50, 10, 0),
+                width: 80,
+                height: 90,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue, // background
+                    foregroundColor: Colors.white, // foreground
+                  ),
+                  onPressed: _sendForwardCommand,
+                  child: const Icon(Icons.arrow_upward),
                 ),
               ),
               Container(
