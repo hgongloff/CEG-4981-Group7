@@ -44,20 +44,20 @@ class Motor:
     
     def move_left(self, name):
         print("Robot Moving Left ")
-        self.m3.forward(50)
+        self.m2.forward(50)
         self.m4.forward(50)
         time.sleep(2)
-        self.m3.stop()
+        self.m2.stop()
         self.m4.stop()
 
 
     def move_right(self, name):
         print("Robot Moving Right ")
         self.m1.forward(50)
-        self.m2.forward(50)
+        self.m3.forward(50)
         time.sleep(2)
         self.m1.stop()
-        self.m2.stop()
+        self.m3.stop()
 
     def stop_moving(self):
         self.motorAll.stop()
