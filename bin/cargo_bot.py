@@ -20,7 +20,7 @@ class CargoBot:
         self.motor = Motor()
         self.get_command_thread = threading.Thread(target=self.get_command)
         #self.distance_senor = DistanceSensor()
-        #self.camera = Camera()
+        self.camera = Camera()
         self.get_command_thread.start()
 
     def play_alarm(self):
