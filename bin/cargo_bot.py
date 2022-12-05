@@ -23,8 +23,8 @@ class CargoBot:
         #self.camera = Camera()
         self.get_command_thread.start()
         self.current_thread = ""
-        self.command_thread_map = {'forward': self.motor.forward_thread, 'backward': self.motor.backward_thread, 'left': self.motor.left_thread, 'right': self.motor.right_thread}
-        self.command_map = {'forward': self.motor.move_forward, 'backward': self.motor.move_backward, 'left': self.motor.move_left, 'right': self.motor.move_right}
+        self.command_thread_map = {'forward': self.motor.forward_thread, 'backward': self.motor.backward_thread, 'left': self.motor.left_thread, 'right': self.motor.right_thread, 'go': self.motor.go_thread}
+        self.command_map = {'forward': self.motor.move_forward, 'backward': self.motor.move_backward, 'left': self.motor.move_left, 'right': self.motor.move_right, 'go': self.motor.go}
 
     def play_alarm(self):
         self.speaker.run_thread.start()
@@ -76,19 +76,38 @@ class CargoBot:
                 self.motor.thread_finished = False
                 self.motor.thread_running = False
                 print("thread finished")
+                print(self.current_thread)
                 self.command_thread_map[self.current_thread].join()
                 self.command_thread_map[self.current_thread] = threading.Thread(target=self.command_map[self.current_thread],  args=(1,))
+                self.current_thread = ""
 
             command = self.cargo_ble.current_command
-            if (command == 'Go'):
-                print("Go")
-                self.current_thread = "forward"
-                self.motor.thread_running = True
-                self.command_thread_map[self.current_thread].start()
-                command = ""
-                self.cargo_ble.current_command = ""
-            elif (command == 'Stop'):
-                print("Stop")
+            if (command == 'Forward'):
+                print("Forward")
+                if self.current_thread == "":
+                    self.current_thread = "forward"
+                    self.motor.thread_running = True
+                    self.command_thread_map[self.current_thread].start()
+                    print("started forward thread")
+                    command = ""
+                    self.cargo_ble.current_command = ""
+                elif self.current_thread == "forward": 
+                    print("thread already running")
+                else:
+                    print("thread already running")
+                    self.motor.thread_running = False
+                    self.motor.thread_finished = False
+                    self.command_thread_map[self.current_thread].join()
+                    self.command_thread_map[self.current_thread] = threading.Thread(target=self.command_map[self.current_thread],  args=(1,))
+                    self.current_thread = "forward"
+                    self.motor.thread_running = True
+                    self.command_thread_map[self.current_thread].start()
+                    print("started forward thread")
+                    command = ""
+                    self.cargo_ble.current_command = ""
+
+            elif (command == 'Stop') and self.motor.thread_running:
+                print("Stop Command")
                 self.motor.thread_running = False
                 self.motor.thread_finished = True
                 command = ""
@@ -99,25 +118,107 @@ class CargoBot:
                 self.cargo_ble.current_command = ""
             elif (command == 'Back'):
                 print("Back")
-                self.current_thread = "backward"
-                self.motor.thread_running = True
-                self.command_thread_map[self.current_thread].start()
-                command = ""
-                self.cargo_ble.current_command = ""
+                if self.current_thread == "":
+                    self.current_thread = "backward"
+                    self.motor.thread_running = True
+                    self.command_thread_map[self.current_thread].start()
+                    print("started backward thread")
+                    command = ""
+                    self.cargo_ble.current_command = ""
+                elif self.current_thread == "backward":
+                    print("thread already running")
+                else:
+                    print("thread already running")
+                    self.motor.thread_running = False
+                    self.motor.thread_finished = False
+                    self.command_thread_map[self.current_thread].join()
+                    self.command_thread_map[self.current_thread] = threading.Thread(target=self.command_map[self.current_thread],  args=(1,))
+                    self.current_thread = "backward"
+                    self.motor.thread_running = True
+                    self.command_thread_map[self.current_thread].start()
+                    print("started backward thread")
+                    command = ""
+                    self.cargo_ble.current_command = ""
             elif (command == 'Left'):
                 print("Left")
-                self.current_thread = "left"
-                self.motor.thread_running = True
-                self.command_thread_map[self.current_thread].start()
-                command = ""
-                self.cargo_ble.current_command = ""
+                if self.current_thread == "":
+                    self.current_thread = "left"
+                    self.motor.thread_running = True
+                    self.command_thread_map[self.current_thread].start()
+                    print("started left thread")
+                    command = ""
+                    self.cargo_ble.current_command = ""
+                elif self.current_thread == "left":
+                    print("thread already running")
+                else:
+                    print("thread already running")
+                    self.motor.thread_running = False
+                    self.motor.thread_finished = False
+                    self.command_thread_map[self.current_thread].join()
+                    self.command_thread_map[self.current_thread] = threading.Thread(target=self.command_map[self.current_thread],  args=(1,))
+                    self.current_thread = "left"
+                    self.motor.thread_running = True
+                    self.command_thread_map[self.current_thread].start()
+                    print("started left thread")
+                    command = ""
+                    self.cargo_ble.current_command = ""
             elif (command == 'Right'):
-                print("Right")
-                self.current_thread = "right"
-                self.motor.thread_running = True
-                self.command_thread_map[self.current_thread].start()
+                if self.current_thread == "":
+                    print("Right")
+                    self.current_thread = "right"
+                    self.motor.thread_running = True
+                    self.command_thread_map[self.current_thread].start()
+                    print("started right thread")
+                    command = ""
+                    self.cargo_ble.current_command = ""
+                elif self.current_thread == "right":
+                    print("thread already running")
+                else:
+                    print("thread already running")
+                    self.motor.thread_running = False
+                    self.motor.thread_finished = False
+                    self.command_thread_map[self.current_thread].join()
+                    self.command_thread_map[self.current_thread] = threading.Thread(target=self.command_map[self.current_thread],  args=(1,))
+                    self.current_thread = "right"
+                    self.motor.thread_running = True
+                    self.command_thread_map[self.current_thread].start()
+                    print("started right thread")
+                    command = ""
+                    self.cargo_ble.current_command = ""
+            elif "Speed" in command:
+                print(f"New Speed = {command.split(' ')[1]}")
+                new_speed = command.split(" ")[1]
+                new_speed = int(new_speed)
+                if new_speed > 100:
+                    new_speed = 100
+                elif new_speed < 0:
+                    new_speed = 0
+                self.motor.speed = new_speed
                 command = ""
                 self.cargo_ble.current_command = ""
+            elif "Go" in command:
+                if self.current_thread == "":
+                    print("Go")
+                    self.current_thread = "go"
+                    self.motor.thread_running = True
+                    self.command_thread_map[self.current_thread].start()
+                    print("started go thread")
+                    command = ""
+                    self.cargo_ble.current_command = ""
+                elif self.current_thread == "go":
+                    print("thread already running")
+                else:
+                    print("thread already running")
+                    self.motor.thread_running = False
+                    self.motor.thread_finished = False
+                    self.command_thread_map[self.current_thread].join()
+                    self.command_thread_map[self.current_thread] = threading.Thread(target=self.command_map[self.current_thread],  args=(1,))
+                    self.current_thread = "go"
+                    self.motor.thread_running = True
+                    self.command_thread_map[self.current_thread].start()
+                    print("started go thread")
+                    command = ""
+                    self.cargo_ble.current_command = ""
             time.sleep(0.1)
 
     def stop_thread(self):
