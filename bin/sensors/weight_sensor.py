@@ -7,9 +7,9 @@ from sensors.hx711 import HX711
 class WeightSensor:
 
     def __init__(self):
-        self.hx = HX711(35, 33)
-        self.hx.set_offset(9049133.5625)
-        self.hx.set_scale(456.48)
+        self.hx = HX711(29, 31)
+        self.hx.set_offset(9211800.0625)
+        self.hx.set_scale(456.39)
 
     def get_weight(self):
         try:
@@ -40,8 +40,8 @@ class WeightSensor:
         """
         code run once
         """
-        self.hx.set_offset(9051810.5)
-        self.hx.set_scale(457.2)
+        self.hx.set_offset(9211800.0625)
+        self.hx.set_scale(456.39)
 
 
     def loop(self):

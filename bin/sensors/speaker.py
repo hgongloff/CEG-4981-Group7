@@ -5,14 +5,14 @@ import threading
 class Speaker:
 
     def __init__(self):
-        self.pin = GPIO.PWM(31, 100)
+        self.pin = GPIO.PWM(7, 100)
         self.run_thread = threading.Thread(target=self.play_alarm, args=(1,))
         #self.pin.start(50)
 
     def play_alarm(self, name):
         print(name)
         self.pin.start(50)
-        GPIO.output(31, GPIO.HIGH)
+        GPIO.output(7, GPIO.HIGH)
         self.pin.ChangeFrequency(16.35) # C0
         sleep(1)
         self.pin.ChangeFrequency(261.63) # C4
@@ -33,7 +33,7 @@ class Speaker:
         sleep(1.5)
         self.pin.ChangeFrequency(16.35) # C0
         sleep(1)
-        GPIO.output(31, GPIO.LOW)
+        GPIO.output(7, GPIO.LOW)
         sleep(1)
         self.pin.stop()
 
