@@ -32,7 +32,7 @@ class _MainScreenState extends State<MainScreen> {
   final Uuid characteristicUuid = Uuid.parse("2A6E");
   final Uuid characteristicUuid_2 = Uuid.parse("2904");
   final String macAddress =
-      'B8:27:EB:BF:42:C0'; // Check new mac address everytime you run the app run hciconfig -a
+      'B8:27:EB:ED:93:9D'; // Check new mac address everytime you run the app run hciconfig -a
 
   void _startScan() async {
 // Platform permissions handling stuff
@@ -139,8 +139,12 @@ class _MainScreenState extends State<MainScreen> {
     print(response);
     // Convert the response to a string
     String weight = utf8.decode(response);
+    double weightDouble = double.parse(weight);
+    String roundedWeight = weightDouble.toStringAsFixed(2);
     // Update the state
-    context.read<CargoBotCubit>().updateCurrentWeightLoad(weight);
+    setState(() {
+      context.read<CargoBotCubit>().updateCurrentWeightLoad(roundedWeight);
+    });
   }
 
   void _partyTime() async {
@@ -304,7 +308,7 @@ class _MainScreenState extends State<MainScreen> {
               ),
               Container(
                 padding: const EdgeInsets.fromLTRB(10, 50, 10, 0),
-                width: 100,
+                width: 150,
                 height: 100,
                 child: TextField(
                   style: TextStyle(
@@ -320,7 +324,8 @@ class _MainScreenState extends State<MainScreen> {
                 padding: const EdgeInsets.fromLTRB(10, 50, 10, 0),
                 child: ElevatedButton(
                   onPressed: () {
-                    _readWeight();
+                    Timer _timer = Timer.periodic(
+                        Duration(seconds: 1), (Timer t) => _readWeight());
                   },
                   child: const Text(
                     "Read",
