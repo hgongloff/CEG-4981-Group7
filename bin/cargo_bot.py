@@ -13,15 +13,19 @@ class CargoBot:
     def __init__(self):
         GPIO.setwarnings(False)
         GPIO.setmode(GPIO.BOARD)
-        GPIO.setup(31, GPIO.OUT)
+        GPIO.setup(7, GPIO.OUT)
         self.speaker = Speaker()
         self.weight_sensor = WeightSensor()
         self.cargo_ble = CargoBotBle()
         self.motor = Motor()
         self.get_command_thread = threading.Thread(target=self.get_command)
+        self.get_weight_thread = threading.Thread(target=self.get_weight)
+        self.get_weight_loop = True
+        self.get_command_loop = True
         #self.distance_senor = DistanceSensor()
         #self.camera = Camera()
         self.get_command_thread.start()
+        self.get_weight_thread.start()
         self.current_thread = ""
         self.command_thread_map = {'forward': self.motor.forward_thread, 'backward': self.motor.backward_thread, 'left': self.motor.left_thread, 'right': self.motor.right_thread, 'go': self.motor.go_thread}
         self.command_map = {'forward': self.motor.move_forward, 'backward': self.motor.move_backward, 'left': self.motor.move_left, 'right': self.motor.move_right, 'go': self.motor.go}
@@ -48,8 +52,9 @@ class CargoBot:
         # self.cargo_ble.get_message()
 
     def get_weight(self):
-        setattr(self.cargo_ble, 'current_weight', 12)
-        return self.weight_sensor.get_weight()
+        while self.get_weight_loop:
+            setattr(self.cargo_ble, 'current_weight', self.weight_sensor.get_weight())
+            time.sleep(1)
 
     def get_cargo(self):
         return self.cargo
@@ -66,12 +71,14 @@ class CargoBot:
     def stop_threads(self):
         self.speaker.stop_thread()
         self.cargo_ble.stop_thread()
+        self.get_weight_thread.join()
+        self.get_command_thread.join()
         self.stop_thread()
         #self.weight_sensor.stop_thread()
         return
 
     def get_command(self):
-        while True:
+        while self.get_command_loop:
             if self.motor.thread_finished:
                 self.motor.thread_finished = False
                 self.motor.thread_running = False
@@ -114,6 +121,7 @@ class CargoBot:
                 self.cargo_ble.current_command = ""
             elif (command == 'Alarm'):
                 print("Alarm")
+                self.play_alarm()
                 command = ""
                 self.cargo_ble.current_command = ""
             elif (command == 'Back'):

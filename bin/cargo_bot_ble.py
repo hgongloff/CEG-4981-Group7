@@ -36,8 +36,7 @@ class CargoBotBle():
         """
         print("value read")
         #cpu_value = self.current_weight
-        return self.current_weight.to_bytes(2,
-                                                  byteorder='little', signed=True)
+        return str(self.current_weight).encode('utf-8')
 
     def write_value(self, value, options):
         # print(value)

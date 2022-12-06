@@ -16,7 +16,7 @@ class WeightSensor:
             self.hx.power_up()
             time.sleep(2)
             val = self.hx.get_grams()
-            print(val)
+            print(f'Weight: {val}')
 
             self.hx.power_down()
             time.sleep(.001)
