@@ -39,7 +39,7 @@ class HX711:
         self.SCALE = 1
 
         # Setup the gpio pin numbering system
-        GPIO.setmode(GPIO.BCM)
+        GPIO.setmode(GPIO.BOARD)
 
         # Set the pin numbers
         self.PD_SCK = pd_sck

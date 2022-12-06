@@ -5,7 +5,7 @@ from time import sleep
 
 def initializeSpeakerGPIO():
   GPIO.setwarnings(False)
-  GPIO.setmode(GPIO.BCM)
+  GPIO.setmode(GPIO.BOARD)
   GPIO.setup(23, GPIO.OUT)
   return GPIO
 

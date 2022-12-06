@@ -48,7 +48,7 @@ if sys.version_info[0] != 3:
 
 # Make sure you correct these to the correct pins for DOUT and SCK.
 # gain is set to 128 as default, change as needed.
-hx = HX711(6, 5, gain=128)
+hx = HX711(29, 31, gain=128)
 
 
 def cleanAndExit():
