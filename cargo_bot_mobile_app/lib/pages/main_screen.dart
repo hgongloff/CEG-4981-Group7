@@ -295,6 +295,33 @@ class _MainScreenState extends State<MainScreen> {
       body: Column(
         children: [
           Row(
+              // Add a text that says discconeted if the connection is not established
+              // and connecting if it is connecting
+              // and connected if it is connected
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  padding: const EdgeInsets.fromLTRB(10, 50, 10, 0),
+                  child: Text(
+                    _foundDeviceWaitingToConnect
+                        ? "Connecting"
+                        : _connected
+                            ? "Connected"
+                            : "Disconnected",
+                    style: TextStyle(
+                      fontSize: 32,
+                      //make bold
+                      fontWeight: FontWeight.bold,
+                      color: _foundDeviceWaitingToConnect
+                          ? Colors.orange
+                          : _connected
+                              ? Colors.green
+                              : Colors.red,
+                    ),
+                  ),
+                ),
+              ]),
+          Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
